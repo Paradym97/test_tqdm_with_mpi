@@ -2,7 +2,7 @@ from threading import Thread
 from tqdm import tqdm
 import time
 
-def tqdm_mpi(comm, rank, size, function, tqdm_kwargs={}, args=[], kwargs={}):
+def tqdm_mpi(comm, function, tqdm_kwargs={}, args=[], kwargs={}):
     """
     This function is used to run a function in parallel using MPI and tqdm to show the progress of the function.
     The function will run on all processes and the progress bar will be updated on the root process.
@@ -30,12 +30,15 @@ def tqdm_mpi(comm, rank, size, function, tqdm_kwargs={}, args=[], kwargs={}):
         time.sleep(rank*2+5)
         return n
 
-    ret = tqdm_mpi(comm, rank, size, main_fuc, args=(rank,),
+    ret = tqdm_mpi(comm, main_fuc, args=(rank,),
                tqdm_kwargs={"bar_format":'{desc}: {percentage:3.0f}%|||{bar}||| {n:.1f}/{total:.1f} [{elapsed}<{remaining}]',
                             "desc": f"Process",
                             },
                )
     """
+
+    rank = comm.Get_rank()
+    size = comm.Get_size()
     
     ret = [None]  # Mutable var so the function can store its return value
     def myrunner(function, ret, *args):

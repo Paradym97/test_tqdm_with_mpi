@@ -1,0 +1,7 @@
+README.md
+setup.py
+tqdm_mpi.egg-info/PKG-INFO
+tqdm_mpi.egg-info/SOURCES.txt
+tqdm_mpi.egg-info/dependency_links.txt
+tqdm_mpi.egg-info/requires.txt
+tqdm_mpi.egg-info/top_level.txt
